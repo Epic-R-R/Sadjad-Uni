@@ -1,4 +1,5 @@
 from selenium import webdriver
+from os import path
 
 
 def finder_url(link):
@@ -19,8 +20,10 @@ def finder_url(link):
 def main():
     driver = webdriver.Chrome(
         executable_path=r'C:\Users\LENOVO\Desktop\sajad uni\Sadjad-Uni\webdriver\chromedriver.exe')
-    username = input("Enter username: ")
-    password = input("Enter password: ")
+    username = "96440153"
+    password = "Ss_13774635"
+    # username = input("Enter username: ")
+    # password = input("Enter password: ")
     link = input("please enter link : ")
     driver.get(link)
     driver.find_element_by_xpath('//*[@id="username"]').send_keys(username)
@@ -29,7 +32,10 @@ def main():
     url = finder_url(link)
     driver.get(
         f"https://vc2.sadjad.ac.ir/{url}/output/class{url}.zip?download=zip")
-    input()
+    active = True
+    while active:
+        if path.isfile(f'C:\\Users\\LENOVO\\Downloads\\class{url}.zip'):
+            active = False
 
 
 if __name__ == "__main__":
