@@ -20,10 +20,8 @@ def finder_url(link):
 def main():
     driver = webdriver.Chrome(
         executable_path=r'C:\Users\LENOVO\Desktop\sajad uni\Sadjad-Uni\webdriver\chromedriver.exe')
-    username = "96440153"
-    password = "Ss_13774635"
-    # username = input("Enter username: ")
-    # password = input("Enter password: ")
+    username = input("Enter username: ")
+    password = input("Enter password: ")
     link = input("please enter link : ")
     driver.get(link)
     driver.find_element_by_xpath('//*[@id="username"]').send_keys(username)
