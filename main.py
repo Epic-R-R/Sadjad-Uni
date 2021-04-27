@@ -19,6 +19,7 @@ def main():
                 "Create issues",
                 "Donate",
                 "About",
+                "Help",
                 "Exit"
             ]
         },
@@ -109,6 +110,16 @@ def main():
             webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=Epic-R-R&labels=bug&template=bug_report.md&title=")
         elif ans["report"] == "Feature request":
             webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=&labels=&template=feature_request.md&title=")
+    elif ans["main"] == "Help":
+        print("""
+        Download Class:
+            Get download link: give you link for download class video, after download you must login into your account in vu.sadjad.ac.ir then use link for download
+            Open browser and download: Automatic open your browser and login into your account then download video
+
+        Create issues:
+            Bug report: If you found a bug in code, you can report the bug and we fix it in next version
+            Feature request: If you want to add a new feature, you can report to us through this option
+        """)
     elif ans["main"] == "Exit":
         confirm = [
                 {
