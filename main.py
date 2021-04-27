@@ -3,9 +3,10 @@ from os import path
 from PyInquirer import prompt
 from styles import style
 from validator import EmptyValidator, UrlValidator
-from download import finder_url
+from findurl import finder_url
 from selenium import webdriver
 from colorama import init, Fore
+import webbrowser
 
 def main():
     question = [
@@ -15,6 +16,7 @@ def main():
             "message": "Choose",
             "choices": [
                 "Download Class",
+                "Create issues",
                 "Donate",
                 "About",
                 "Exit"
@@ -90,6 +92,23 @@ def main():
         pass
     elif ans["main"] == "Donate":
         pass
+    elif ans["main"] == "Create issues":
+        question = [
+            {
+                "type": "list",
+                "name": "report",
+                "message": "Choose",
+                "choices": [
+                    "Bug report",
+                    "Feature request"
+                ]
+            }
+        ]
+        ans = prompt(question, style=style)
+        if ans["report"] == "Bug report":
+            webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=Epic-R-R&labels=bug&template=bug_report.md&title=")
+        elif ans["report"] == "Feature request":
+            webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=&labels=&template=feature_request.md&title=")
     elif ans["main"] == "Exit":
         confirm = [
                 {
