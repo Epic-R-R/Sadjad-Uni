@@ -7,8 +7,11 @@ from findurl import finder_url
 from selenium import webdriver
 from colorama import init, Fore
 import webbrowser
+from helper import back, screencls
+from datetime import datetime
 
 def main():
+    screencls()
     question = [
         {
             "type": "list",
@@ -51,9 +54,16 @@ def main():
             if UrlValidator(ans["link"]) is not None:
                 link = f'https://vc2.sadjad.ac.ir/{finder_url(ans["link"])}/output/{finder_url(ans["link"])}.zip?download=zip'
                 print(f"{Fore.GREEN}Download Link : {Fore.BLUE}{link}")
+                with open("DownloadLinks.txt", "a") as fp:
+                    now = datetime.now()
+                    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+                    fp.write(f"Link: {link}\nDate and Time: {dt_string}\n{30*'='}\n")
+                if back():
+                    main()
             else:
                 print("invalid url")
-                sys.exit(0)
+                if back():
+                    main()
         elif ans["choice"] == "Open browser and download":
             accountInfo = [
                 {
@@ -86,9 +96,16 @@ def main():
                 url = finder_url(accountinformation["classlink"])
                 downloadurl = f"https://vc2.sadjad.ac.ir/{url}/output/{url}.zip?download=zip"
                 driver.get(downloadurl)
+                with open("DownloadLinks.txt", "a") as fp:
+                    now = datetime.now()
+                    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+                    fp.write(f"Link: {url}\nDate and Time: {dt_string}\n{30*'='}\n")
+                if back():
+                    main()
             else:
                 print("invalid url")
-                sys.exit(0)
+                if back():
+                    main()
     elif ans["main"] == "About":
         pass
     elif ans["main"] == "Donate":
@@ -111,15 +128,18 @@ def main():
         elif ans["report"] == "Feature request":
             webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=&labels=&template=feature_request.md&title=")
     elif ans["main"] == "Help":
-        print("""
-        Download Class:
-            Get download link: give you link for download class video, after download you must login into your account in vu.sadjad.ac.ir then use link for download
-            Open browser and download: Automatic open your browser and login into your account then download video
+        print(f"""
+        {Fore.GREEN}Download Class:
+            {Fore.LIGHTGREEN_EX}Get download link: {Fore.BLUE}give you link for download class video and save into DownloadLinks.txt file, 
+                                    after download you must login into your account in vu.sadjad.ac.ir then use link for download
+            {Fore.LIGHTGREEN_EX}Open browser and download: {Fore.BLUE}Automatic open your browser and login into your account then download video
 
-        Create issues:
-            Bug report: If you found a bug in code, you can report the bug and we fix it in next version
-            Feature request: If you want to add a new feature, you can report to us through this option
+        {Fore.GREEN}Create issues:
+            {Fore.LIGHTGREEN_EX}Bug report: {Fore.BLUE}If you found a bug in code, you can report the bug and we fix it in next version
+            {Fore.LIGHTGREEN_EX}Feature request: {Fore.BLUE}If you want to add a new feature, you can report to us through this option
         """)
+        if back():
+            main()
     elif ans["main"] == "Exit":
         confirm = [
                 {
@@ -136,5 +156,5 @@ def main():
             main()
 
 if __name__ == "__main__":
-    init(autoreset=True)  # Colorama autoreset terminal color True
+    init(autoreset=True)
     main()
