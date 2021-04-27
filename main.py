@@ -3,11 +3,10 @@ from os import path
 from PyInquirer import prompt
 from styles import style
 from validator import EmptyValidator, UrlValidator
-from findurl import finder_url
 from selenium import webdriver
 from colorama import init, Fore
 import webbrowser
-from helper import back, screencls
+from helper import back, screencls, finder_url
 from datetime import datetime
 
 def main():
