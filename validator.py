@@ -1,5 +1,5 @@
 from PyInquirer import ValidationError, Validator
-
+import re
 # create class for check Empty Field in input
 class EmptyValidator(Validator):
     def validate(self, value):
@@ -9,7 +9,7 @@ class EmptyValidator(Validator):
             raise ValidationError(
                 message="You can't leave this blank", cursor_position=len(value.text)
             )
-            
+
 def UrlValidator(url):
     regex = re.compile(
         r'^https?://'  # http:// or https://
