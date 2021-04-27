@@ -9,7 +9,7 @@ class EmptyValidator(Validator):
             raise ValidationError(
                 message="You can't leave this blank", cursor_position=len(value.text)
             )
-
+            
 def UrlValidator(url):
     regex = re.compile(
         r'^https?://'  # http:// or https://
