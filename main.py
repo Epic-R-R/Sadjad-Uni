@@ -1,5 +1,4 @@
 import sys
-from os import path
 from PyInquirer import prompt
 from styles import style
 from validator import EmptyValidator, UrlValidator
@@ -8,7 +7,8 @@ from colorama import init, Fore
 import webbrowser
 from helper import back, screencls, finder_url
 from datetime import datetime
-
+import os
+import subprocess
 def main():
     screencls()
     question = [
@@ -18,6 +18,7 @@ def main():
             "message": "Choose",
             "choices": [
                 "Download Class",
+                "Merge Download File",
                 "Create issues",
                 "Donate",
                 "About",
@@ -105,6 +106,33 @@ def main():
                 print("invalid url")
                 if back():
                     main()
+    elif ans["main"] == "Merge Download File":
+        print(f"""
+            {Fore.YELLOW}Warning:
+                {Fore.RED}for merging download file first copy file into mergflv folder then run code
+        """)
+        question = [
+            {
+                "type": "input",
+                "name": "merge",
+                "message": "Enter zip filename(Ex: class.zip):",
+                "validate": EmptyValidator
+            },
+            {
+                "type": "input",
+                "name": "filename",
+                "message": "Enter name for output file:",
+                "validate": EmptyValidator
+            }
+        ]
+        ans = prompt(question, style=style)
+        os.chdir("mergflv/")
+        # os.system(f"python3 main.py {ans['merge']} {ans['filename']}")
+        subprocess.run(["python3", "main.py", ans['merge'], ans['filename']], stdout=subprocess.PIPE)
+        os.chdir(os.getcwd())
+        print(f"{Fore.GREEN}Done running the command.")
+        if back():
+            main()
     elif ans["main"] == "About":
         pass
     elif ans["main"] == "Donate":
