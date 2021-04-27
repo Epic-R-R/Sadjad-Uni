@@ -1,16 +1,3 @@
-'''
-Requirements:
-- python 2.7 or 3
-- wget, unzip, and ffmpeg accessible from command line.
-
-Examples:
-python connect2vid_v2.py https://my.adobeconnect.com/pqc06mcawjgn/  --output_filename=" Understanding how the Network impacts your service"
-
-The script assumes that the .zip files contains screenshare__.flv files, which contain the screen share.
-
-Please email Franck Dernoncourt <franck.dernoncourt@gmail.com> if you improve this code.
-'''
-
 import shlex
 import subprocess
 import os
@@ -76,7 +63,7 @@ def main():
     This is the main function
     '''
 
-    # ================ parse the arguments (part of the parsing code was written by Aaron Hertzmann) ======================
+    # ================ parse the arguments (part of the parsing code was written by Aaron Hertzmann and Sullivan) ======================
 
     parser = argparse.ArgumentParser(description='Download an Adobe Connect recording and convert to a video file.')
     parser.add_argument('URLorIDorZIP', nargs='*', help='URL, code, or ZIP file for the Connect recording')
@@ -139,7 +126,7 @@ def main():
         video_list_file.write("file '{0}'\n".format(output_filepath))
     video_list_file.close()
     final_output_filepath = '{0}.flv'.format(video_filename)
-    # ffmpeg command from Oliver Wang / Yannick Hold-Geoffroy / Aaron Hertzmann
+    # ffmpeg command from Oliver Wang / Yannick Hold-Geoffroy / Aaron Hertzmann / Sullivan
     conversion_command = 'ffmpeg -safe 0 -y -f concat -i "{1}" -c copy "{0}"'.format(final_output_filepath, video_list_filename)
     run_command(conversion_command)
     #os.remove(video_list_filename)
