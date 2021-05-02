@@ -11,7 +11,6 @@ import os
 import subprocess
 
 
-
 def main():
     screencls()
     question = [
@@ -26,9 +25,9 @@ def main():
                 "Donate",
                 "About",
                 "Help",
-                "Exit"
-            ]
-        },
+                "Exit",
+            ],
+        }
     ]
     ans = prompt(question, style=style)
     if ans["main"] == "Download Class":
@@ -37,20 +36,17 @@ def main():
                 "type": "list",
                 "name": "choice",
                 "message": "Options",
-                "choices": [
-                    "Get Download link",
-                    "Open browser and download"
-                ]
+                "choices": ["Get Download link", "Open browser and download"],
             }
         ]
         ans = prompt(choose, style=style)
         if ans["choice"] == "Get Download link":
             getlink = [
                 {
-                "type": "input",
-                "name": "link",
-                "message": "Enter Class Link:",
-                "validate": EmptyValidator
+                    "type": "input",
+                    "name": "link",
+                    "message": "Enter Class Link:",
+                    "validate": EmptyValidator,
                 }
             ]
             ans = prompt(getlink, style=style)
@@ -85,19 +81,24 @@ def main():
                     "type": "input",
                     "name": "classlink",
                     "message": "Enter Class Link:",
-                    "validate": EmptyValidator
-                }
+                    "validate": EmptyValidator,
+                },
             ]
             accountinformation = prompt(accountInfo, style=style)
             if UrlValidator(accountinformation["classlink"]) is not None:
-                driver = webdriver.Chrome(
-                    executable_path=r'./webdriver/chromedriver')
+                driver = webdriver.Chrome(executable_path=r"./webdriver/chromedriver")
                 driver.get(accountinformation["classlink"])
-                driver.find_element_by_xpath('//*[@id="username"]').send_keys(accountinformation["username"])
-                driver.find_element_by_xpath('//*[@id="password"]').send_keys(accountinformation["password"])
+                driver.find_element_by_xpath('//*[@id="username"]').send_keys(
+                    accountinformation["username"]
+                )
+                driver.find_element_by_xpath('//*[@id="password"]').send_keys(
+                    accountinformation["password"]
+                )
                 driver.find_element_by_xpath('//*[@id="loginbtn"]').click()
                 url = finder_url(accountinformation["classlink"])
-                downloadurl = f"https://vc2.sadjad.ac.ir/{url}/output/{url}.zip?download=zip"
+                downloadurl = (
+                    f"https://vc2.sadjad.ac.ir/{url}/output/{url}.zip?download=zip"
+                )
                 driver.get(downloadurl)
                 with open("DownloadLinks.txt", "a") as fp:
                     now = datetime.now()
@@ -110,28 +111,33 @@ def main():
                 if back():
                     main()
     elif ans["main"] == "Merge Download File":
-        print(f"""
+        print(
+            f"""
             {Fore.YELLOW}Warning:
                 {Fore.RED}for merging download file first copy file into mergflv folder then run code
-        """)
+        """
+        )
         question = [
             {
                 "type": "input",
                 "name": "merge",
                 "message": "Enter zip filename(Ex: class.zip):",
-                "validate": EmptyValidator
+                "validate": EmptyValidator,
             },
             {
                 "type": "input",
                 "name": "filename",
                 "message": "Enter name for output file:",
-                "validate": EmptyValidator
-            }
+                "validate": EmptyValidator,
+            },
         ]
         ans = prompt(question, style=style)
         os.chdir("mergflv/")
         # os.system(f"python3 main.py {ans['merge']} {ans['filename']}")
-        subprocess.run(["python3", "main.py", ans['merge'], ans['filename']], stdout=subprocess.PIPE)
+        subprocess.run(
+            ["python3", "main.py", ans["merge"], ans["filename"]],
+            stdout=subprocess.PIPE,
+        )
         os.chdir(os.getcwd())
         print(f"{Fore.GREEN}Done running the command.")
         if back():
@@ -146,19 +152,21 @@ def main():
                 "type": "list",
                 "name": "report",
                 "message": "Choose",
-                "choices": [
-                    "Bug report",
-                    "Feature request"
-                ]
+                "choices": ["Bug report", "Feature request"],
             }
         ]
         ans = prompt(question, style=style)
         if ans["report"] == "Bug report":
-            webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=Epic-R-R&labels=bug&template=bug_report.md&title=")
+            webbrowser.open(
+                "https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=Epic-R-R&labels=bug&template=bug_report.md&title="
+            )
         elif ans["report"] == "Feature request":
-            webbrowser.open("https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=&labels=&template=feature_request.md&title=")
+            webbrowser.open(
+                "https://github.com/Epic-R-R/Sadjad-Uni/issues/new?assignees=&labels=&template=feature_request.md&title="
+            )
     elif ans["main"] == "Help":
-        print(f"""
+        print(
+            f"""
         {Fore.GREEN}Download Class:
             {Fore.LIGHTGREEN_EX}Get download link: {Fore.BLUE}give you link for download class video and save into DownloadLinks.txt file, 
                                     after download you must login into your account in vu.sadjad.ac.ir then use link for download
@@ -167,23 +175,25 @@ def main():
         {Fore.GREEN}Create issues:
             {Fore.LIGHTGREEN_EX}Bug report: {Fore.BLUE}If you found a bug in code, you can report the bug and we fix it in next version
             {Fore.LIGHTGREEN_EX}Feature request: {Fore.BLUE}If you want to add a new feature, you can report to us through this option
-        """)
+        """
+        )
         if back():
             main()
     elif ans["main"] == "Exit":
         confirm = [
-                {
-                    "type": "confirm",
-                    "message": "Do you want to exit?",
-                    "name": "exit",
-                    "default": False,
-                },
-            ]
+            {
+                "type": "confirm",
+                "message": "Do you want to exit?",
+                "name": "exit",
+                "default": False,
+            }
+        ]
         ans = prompt(confirm, style=style)
         if ans["exit"]:
             sys.exit(0)
         else:
             main()
+
 
 if __name__ == "__main__":
     init(autoreset=True)
