@@ -2,7 +2,6 @@ import os
 import glob
 import shlex, subprocess
 
-
 def run_command(command):
     print('running command: {0}'.format(command))
     process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE)
